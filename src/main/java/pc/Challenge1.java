@@ -1,6 +1,5 @@
 package pc;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +14,8 @@ public class Challenge1 {
     }
 
     public String challenge1(int start, int end) {
-        // return start + " " + end + " " + Collections.max(sequenceLengthRange(start, end));
+        // return start + " " + end + " " +
+        // Collections.max(sequenceLengthRange(start, end));
         return start + " " + end + " " + findMax(sequenceLengthRange(start, end));
     }
 
@@ -54,9 +54,9 @@ public class Challenge1 {
         return sequence;
     }
 
-    public int findMax(List<Integer> list){
+    public int findMax(List<Integer> list) {
         int max = 0;
-        for (Integer i: list){
+        for (Integer i : list) {
             if (i > max)
                 max = i;
         }
