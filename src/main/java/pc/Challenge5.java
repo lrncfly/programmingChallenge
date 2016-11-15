@@ -3,70 +3,70 @@ package pc;
 import java.util.LinkedList;
 import java.util.List;
 
-import pc.Instruction.InstructionType;
+import pc.Command.CommandType;
 
 public class Challenge5 {
 
     public static void main(String[] args) {
         Challenge5 c = new Challenge5();
-        List<Instruction> instructions = new LinkedList<>();
-        Instruction i = new Instruction(InstructionType.I);
+        List<Command> commands = new LinkedList<>();
+        Command i = new Command(CommandType.I);
         i.setM(6);
         i.setN(5);
-        instructions.add(i);
-        i = new Instruction(InstructionType.L);
+        commands.add(i);
+        i = new Command(CommandType.L);
         i.setX(3 - 1);
         i.setY(2 - 1);
         i.setColour('A');
-        instructions.add(i);
-        i = new Instruction(InstructionType.S);
+        commands.add(i);
+        i = new Command(CommandType.S);
         i.setFile("one.bmp");
-        instructions.add(i);
-        i = new Instruction(InstructionType.V);
+        commands.add(i);
+        i = new Command(CommandType.V);
         i.setX(2 - 1);
         i.setY1(3 - 1);
         i.setY2(4 - 1);
         i.setColour('W');
-        instructions.add(i);
-        i = new Instruction(InstructionType.H);
+        commands.add(i);
+        i = new Command(CommandType.H);
         i.setX1(3 - 1);
         i.setX2(4 - 1);
         i.setY(2 - 1);
         i.setColour('Z');
-        instructions.add(i);
-        i = new Instruction(InstructionType.F);
+        commands.add(i);
+        i = new Command(CommandType.F);
         i.setX(3 - 1);
         i.setY(3 - 1);
         i.setColour('J');
-        instructions.add(i);
-        i = new Instruction(InstructionType.S);
+        commands.add(i);
+        i = new Command(CommandType.S);
         i.setFile("two.bmp");
-        instructions.add(i);
-        for (Instruction inst : instructions)
+        commands.add(i);
+        for (Command inst : commands)
             switch (inst.getType()) {
             case I:
-                c.initialiseInstruction(inst.getM(), inst.getN());
+                c.initialiseCommand(inst.getM(), inst.getN());
                 break;
             case C:
-                c.clearInstruction();
+                c.clearCommand();
                 break;
             case L:
-                c.colorInstruction(inst.getX(), inst.getY(), inst.getColour());
+                c.colorCommand(inst.getX(), inst.getY(), inst.getColour());
                 break;
             case V:
-                c.verticalInstruction(inst.getX(), inst.getY1(), inst.getY2(), inst.getColour());
+                c.verticalCommand(inst.getX(), inst.getY1(), inst.getY2(), inst.getColour());
                 break;
             case H:
-                c.horizontalInstruction(inst.getX1(), inst.getX2(), inst.getY(), inst.getColour());
+                c.horizontalCommand(inst.getX1(), inst.getX2(), inst.getY(), inst.getColour());
                 break;
             case K:
-                c.rectangleInstruction(inst.getX1(), inst.getY1(), inst.getX2(), inst.getY2(), inst.getColour());
+                c.rectangleCommand(inst.getX1(), inst.getY1(), inst.getX2(), inst.getY2(), inst.getColour());
                 break;
             case F:
-                c.fillInstruction(inst.getX(), inst.getY(), inst.getColour());
+                c.fillCommand(inst.getX(), inst.getY(), inst.getColour());
                 break;
             case S:
-                c.saveInstruction(inst.getFile());
+                c.saveCommand(inst.getFile());
                 break;
             default:
                 break;
@@ -77,51 +77,51 @@ public class Challenge5 {
     private int n;
     private char[][] canvas;
 
-    boolean initialiseInstruction(int m, int n) {
+    boolean initialiseCommand(int m, int n) {
         this.m = m;
         this.n = n;
         this.canvas = new char[m][n];
-        return clearInstruction();
+        return clearCommand();
     }
 
-    boolean clearInstruction() {
+    boolean clearCommand() {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                colorInstruction(i, j, '0');
+                colorCommand(i, j, '0');
             }
         }
         
         return true;
     }
 
-    boolean colorInstruction(int x, int y, char c) {
+    boolean colorCommand(int x, int y, char c) {
         canvas[x][y] = c;
         return true;
     }
 
-    boolean verticalInstruction(int x, int y1, int y2, char c) {
+    boolean verticalCommand(int x, int y1, int y2, char c) {
         for (int j = y1; j <= y2; j++) {
-            colorInstruction(x, j, c);
+            colorCommand(x, j, c);
         }
         return true;
     }
 
-    boolean horizontalInstruction(int x1, int x2, int y, char c) {
+    boolean horizontalCommand(int x1, int x2, int y, char c) {
         for (int i = x1; i <= x2; i++) {
-            colorInstruction(i, y, c);
+            colorCommand(i, y, c);
         }
         return true;
     }
 
-    boolean rectangleInstruction(int x1, int y1, int x2, int y2, char c) {
-        horizontalInstruction(x1, x2, y1, c);
-        horizontalInstruction(x1, x2, y2, c);
-        verticalInstruction(x1, y1, y2, c);
-        verticalInstruction(x2, y1, y2, c);
+    boolean rectangleCommand(int x1, int y1, int x2, int y2, char c) {
+        horizontalCommand(x1, x2, y1, c);
+        horizontalCommand(x1, x2, y2, c);
+        verticalCommand(x1, y1, y2, c);
+        verticalCommand(x2, y1, y2, c);
         return true;
     }
 
-    boolean fillInstruction(int x, int y, char c) {
+    boolean fillCommand(int x, int y, char c) {
         char cToReplace = canvas[x][y];
         if (c != cToReplace) {
             canvas[x][y] = c;
@@ -140,11 +140,11 @@ public class Challenge5 {
     private void replaceSurrounding(int i, int j, char cToReplace, char c) {
         if (i >= 0 && i < m && j >= 0 && j < n) {
             if (this.canvas[i][j] == cToReplace)
-                fillInstruction(i, j, c);
+                fillCommand(i, j, c);
         }
     }
 
-    boolean saveInstruction(String file) {
+    boolean saveCommand(String file) {
         System.out.println(file);
         for (int i = 0; i < this.canvas.length; i++) {
             for (int j = 0; j < this.canvas[i].length; j++) {
@@ -156,12 +156,12 @@ public class Challenge5 {
     }
 }
 
-class Instruction {
-    enum InstructionType {
+class Command {
+    enum CommandType {
         I, C, L, V, H, K, F, S, X
     }
 
-    private InstructionType type;
+    private CommandType type;
     private int m;
     private int n;
     private int[] x = new int[2];
@@ -169,11 +169,11 @@ class Instruction {
     private char colour;
     private String file;
 
-    Instruction(InstructionType type) {
+    Command(CommandType type) {
         this.type = type;
     }
 
-    public InstructionType getType() {
+    public CommandType getType() {
         return this.type;
     }
 
