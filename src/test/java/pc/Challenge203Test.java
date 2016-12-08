@@ -1,9 +1,6 @@
 package pc;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
-import java.util.Map;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
